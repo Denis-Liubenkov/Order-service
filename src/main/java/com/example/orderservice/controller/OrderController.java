@@ -1,9 +1,7 @@
 package com.example.orderservice.controller;
 
-import com.example.orderservice.domain.Book;
-import com.example.orderservice.domain.Order;
-import com.example.orderservice.domain.OrderRequest;
-import com.example.orderservice.domain.User;
+import com.example.orderservice.Producer.OrderProducer;
+import com.example.orderservice.domain.*;
 import com.example.orderservice.exceptions.BookNotFoundException;
 import com.example.orderservice.exceptions.OrderNotFoundException;
 import com.example.orderservice.exceptions.UserNotFoundException;
@@ -23,10 +21,13 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    private final OrderProducer orderProducer;
+
     private static final Logger log = LoggerFactory.getLogger(OrderController.class);
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, OrderProducer orderProducer) {
         this.orderService = orderService;
+        this.orderProducer = orderProducer;
     }
 
     //@PreAuthorize("hasRole('USER')")
@@ -64,7 +65,15 @@ public class OrderController {
     //@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest, @RequestHeader("Authorization") String token) {
-        orderService.createOrder(orderRequest.getUserId(), orderRequest.getBookId(), token);
+        Order order = orderService.createOrder(orderRequest.getUserId(), orderRequest.getBookId(),orderRequest.getQuantity(), token);
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setOrderId(order.getOrderId());
+        orderDTO.setUserId(order.getUserId());
+        orderDTO.setBookId(order.getBookId());
+        orderDTO.setQuantity(order.getQuantity());
+        orderDTO.setStatus(order.getStatus());
+        orderDTO.setOrderDate(order.getOrderDate());
+        orderProducer.sendMessage(orderDTO);
         log.info("Order with user`s id: " + orderRequest.getUserId() + " is created!");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

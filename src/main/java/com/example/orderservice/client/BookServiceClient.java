@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@FeignClient(name = "books-service", url = "http://localhost:8082")
+@FeignClient(name = "books-service", url = "http://books-service:8082")
 public interface BookServiceClient {
 
     @GetMapping("/books/{bookId}")

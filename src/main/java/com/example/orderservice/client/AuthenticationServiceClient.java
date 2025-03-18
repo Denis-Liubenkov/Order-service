@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "Authentication", url = "http://localhost:8084")
+@FeignClient(name = "AuthenticationMs", url = "http://AuthenticationMs:8084")
 public interface AuthenticationServiceClient {
 
     @GetMapping("/auth/validate")

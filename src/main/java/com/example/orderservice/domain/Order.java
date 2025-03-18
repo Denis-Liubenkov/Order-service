@@ -14,6 +14,8 @@ public class Order {
     private Long orderId;
     private Long userId;
     private Long bookId;
+    private Integer quantity;
+    private OrderStatus status;
     private LocalDateTime orderDate;
 }
 

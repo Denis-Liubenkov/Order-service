@@ -18,20 +18,21 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.4.3")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:3.4.1")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.4.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    implementation("org.postgresql:postgresql:42.7.4")
+    implementation("org.postgresql:postgresql:42.7.5")
     implementation("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok")
-    implementation("org.springframework.boot:spring-boot-starter-validation:3.4.0")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.4.3")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")
     implementation("org.springframework.cloud:spring-cloud-starter-consul-discovery:4.2.0")
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:3.2.0")
-    implementation("org.springframework.cloud:spring-cloud-starter-config:4.2.0")
+    implementation("org.springframework.cloud:spring-cloud-config-client:4.2.0")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.kafka:spring-kafka:3.3.3")
     dependencies {
         testImplementation("com.h2database:h2")
     }

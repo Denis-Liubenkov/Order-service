@@ -5,6 +5,7 @@ import com.example.orderservice.client.BookServiceClient;
 import com.example.orderservice.client.UserServiceClient;
 import com.example.orderservice.domain.Book;
 import com.example.orderservice.domain.Order;
+import com.example.orderservice.domain.OrderStatus;
 import com.example.orderservice.domain.User;
 import com.example.orderservice.exceptions.OrderNotFoundException;
 import com.example.orderservice.exceptions.UserNotFoundException;
@@ -60,7 +61,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public void createOrder(Long userId, Long bookId, String token) {
+    public Order createOrder(Long userId, Long bookId, Integer quantity, String token) {
         if (!authenticationServiceClient.validateToken(token)) {
             throw new RuntimeException("Access denied: No access to create order");
         }
@@ -69,11 +70,14 @@ public class OrderService {
             Order order = new Order();
             order.setUserId(userId);
             order.setBookId(bookId);
+            order.setQuantity(quantity);
+            order.setStatus(OrderStatus.CREATED);
             order.setOrderDate(LocalDateTime.now());
             orderRepository.save(order);
             User user = userOptional.get();
             user.setOrderId(order.getOrderId());
             userServiceClient.updateUser(user, userId, token);
+            return order;
         }
         throw new UserNotFoundException();
     }
